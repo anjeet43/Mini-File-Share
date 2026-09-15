@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini File Share</title>
+</head>
+
+<body>
+
+    <h1>Mini File Share</h1>
+
+    <input id="file" type="file">
+    <button onclick="upload()">Upload</button>
+
+    <h2>Files</h2>
+
+    <div id="list"></div>
+
+    <script>
+        async function upload() {
+            const f = document.getElementById("file").files[0];
+
+            if (!f) {
+                alert("Choose a file first");
+                return;
+            }
+
+            const data = new FormData();
+
+            data.append("file", f);
+
+            const res = await fetch("/upload", {
+                method: "POST",
+                body: data
+            });
+
+            const ans = await res.json();
+
+            alert(ans.msg);
+
+            document.getElementById("file").value = "";
+
+            loadFiles();
+        }
+
+        async function loadFiles() {
+            const res = await fetch("/files");
+
+            const files = await res.json();
+
+            const list = document.getElementById("list");
+
+            list.innerHTML = "";
+
+            files.forEach(f => {
+                const p = document.createElement("p");
+
+                p.innerHTML = `
+                    <b>${f.name}</b>
+                    (${formatSize(f.size)})
+                    <a href="/download/${f.id}">Download</a>
+                    <button onclick="del('${f.id}')">
+                        Delete
+                    </button>
+                `;
+
+                list.appendChild(p);
+            });
+        }
+
+        async function del(id) {
+            const ok = confirm("Delete this file?");
+
+            if (!ok) return;
+
+            await fetch("/files/" + id, {
+                method: "DELETE"
+            });
+
+            loadFiles();
+        }
+
+        function formatSize(bytes) {
+            if (bytes < 1024)
+                return bytes + " B";
+
+            if (bytes < 1024 * 1024)
+                return (bytes / 1024).toFixed(1) + " KB";
+
+            if (bytes < 1024 * 1024 * 1024)
+                return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+
+            return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+        }
+
+        loadFiles();
+    </script>
+
+</body>
+</html>
