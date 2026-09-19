@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Mini File Share</title>
+  <meta
+    name="description"
+    content="Fast, private file sharing across devices on your local network."
+  />
+
+  <!-- Prevent theme flash before first paint -->
+
+  <script>
+    (function () {
+      try {
+        var stored = window.localStorage.getItem("mfs-theme");
+        var theme = ["dark", "light", "system"].indexOf(stored) !== -1
+          ? stored
+          : "system";
+
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "system");
+      }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+</head>
+
+<body>
+  <!-- Ambient background -->
+  <div class="ambient-background" aria-hidden="true">
+    <div class="ambient-orb ambient-orb-one"></div>
+    <div class="ambient-orb ambient-orb-two"></div>
+    <div class="ambient-grid"></div>
+  </div>
+
+  <div class="app-shell">
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header class="app-header">
+
+  <a href="/" class="brand" aria-label="Mini File Share home">
+    <span data-icon="brand" class="brand-mark"></span>
+
+    <span class="brand-copy">
+      <span class="brand-name">Mini File Share</span>
+      <span class="brand-tagline">Private. Local. Fast.</span>
+    </span>
+  </a>
+
+  <div class="header-actions">
+
+    <!-- Connection status -->
+    <button
+      class="network-pill"
+      id="network-pill"
+      type="button"
+      aria-haspopup="dialog"
+      aria-controls="network-panel"
+    >
+      <span
+        class="status-dot"
+        data-role="network-status-dot"
+        data-status="online"
+        aria-hidden="true"
+      ></span>
+
+      <span id="network-pill-label">Local network</span>
+
+      <span
+        data-icon="chevron"
+        class="network-pill-chevron"
+        aria-hidden="true"
+      ></span>
+    </button>
+
+    <!-- Theme -->
+    <div
+      class="theme-switch"
+      role="group"
+      aria-label="Theme"
+    >
+      <button
+        type="button"
+        data-theme-option="dark"
+        aria-pressed="false"
+        title="Dark theme"
+      >
+        <span data-icon="moon" aria-hidden="true"></span>
+        <span>Dark</span>
+      </button>
+
+      <button
+        type="button"
+        data-theme-option="light"
+        aria-pressed="false"
+        title="Light theme"
+      >
+        <span data-icon="sun" aria-hidden="true"></span>
+        <span>Light</span>
+      </button>
+
+      <button
+        type="button"
+        data-theme-option="system"
+        aria-pressed="false"
+        title="Use system theme"
+      >
+        <span data-icon="monitor" aria-hidden="true"></span>
+        <span>Auto</span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- =====================================================
+     MAIN APPLICATION
+====================================================== -->
+
+<div class="app-body">
+
+  <main class="main-panel">
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="hero-section">
+
+      <div class="hero-copy">
+
+        <div class="hero-eyebrow">
+          <span class="eyebrow-dot"></span>
+          LOCAL FILE TRANSFER
+        </div>
+
+        <h1>
+          Share files.
+          <span>Without the cloud.</span>
+        </h1>
+
+        <p>
+          Transfer files directly between devices on the same network.
+          Fast, simple, and private.
+        </p>
+
+      </div>
+
+
+      <!-- ===============================================
+           UPLOAD / DROP ZONE
+      ================================================ -->
+
+      <label
+        class="upload-zone"
+        for="file-input"
+        id="upload-zone"
+      >
+
+        <div class="upload-zone-glow" aria-hidden="true"></div>
+
+        <div class="upload-zone-content">
+
+          <div class="upload-icon-wrap">
+            <span
+              data-icon="upload"
+              class="upload-zone-icon"
+              aria-hidden="true"
+            ></span>
+
+            <span
+              class="upload-icon-ring"
+              aria-hidden="true"
+            ></span>
+          </div>
+
+          <div class="upload-zone-heading">
+            Drop files here
+          </div>
+
+          <div class="upload-zone-subtext">
+            or choose files from your device
+          </div>
+
+          <span
+            class="btn btn-primary upload-choose-btn"
+            aria-hidden="true"
+          >
+            <span data-icon="plus"></span>
+            <span>Choose files</span>
+          </span>
+
+          <div class="upload-zone-meta">
+            <span data-icon="shield" aria-hidden="true"></span>
+            <span>Files stay on your local network</span>
+          </div>
+
+        </div>
+
+        <input
+          type="file"
+          id="file-input"
+          multiple
+        />
+
+      </label>
+
+
+      <!-- =================================================
+           QUICK INFO
+      ================================================== -->
+
+      <div class="quick-info-row">
+
+        <div class="quick-info-item">
+          <span
+            class="quick-info-icon"
+            data-icon="zap"
+            aria-hidden="true"
+          ></span>
+
+          <div>
+            <strong>Fast transfer</strong>
+            <span>Direct over Wi-Fi</span>
+          </div>
+        </div>
+
+        <div class="quick-info-item">
+          <span
+            class="quick-info-icon"
+            data-icon="shield"
+            aria-hidden="true"
+          ></span>
+
+          <div>
+            <strong>Local & private</strong>
+            <span>No cloud required</span>
+          </div>
+        </div>
+
+        <div class="quick-info-item">
+          <span
+            class="quick-info-icon"
+            data-icon="devices"
+            aria-hidden="true"
+          ></span>
+
+          <div>
+            <strong>Any device</strong>
+            <span>Phone, tablet or laptop</span>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           UPLOAD QUEUE
+      ================================================== -->
+
+      <section
+        class="upload-queue"
+        id="upload-queue"
+        hidden
+        aria-label="Active transfers"
+      >
+
+        <div class="section-heading-row">
+
+          <div>
+            <span class="section-eyebrow">TRANSFERS</span>
+
+            <h2>Active transfers</h2>
+          </div>
+
+          <span
+            class="upload-queue-summary mono"
+            id="upload-queue-summary"
+          ></span>
+
+        </div>
+
+        <div
+          class="upload-queue-list"
+          id="upload-queue-list"
+        ></div>
+
+      </section>
+
+
+      <!-- =================================================
+           SHARED FILES
+      ================================================== -->
+
+      <section
+        class="file-panel"
+        aria-label="Shared files"
+      >
+
+        <div class="file-panel-header">
+
+          <div class="file-heading">
+
+            <span class="section-eyebrow">
+              YOUR FILES
+            </span>
+
+            <div class="file-heading-main">
+              <h2 id="file-count-label">
+                0 files
+              </h2>
+
+              <span
+                class="file-heading-status"
+                aria-hidden="true"
+              >
+                <span class="status-dot"></span>
+                Available on this network
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="file-controls">
+
+            <label
+              class="search-box"
+              for="search-input"
+            >
+              <span
+                data-icon="search"
+                aria-hidden="true"
+              ></span>
+
+              <input
+                type="search"
+                id="search-input"
+                placeholder="Search files..."
+                aria-label="Search files"
+                autocomplete="off"
+              />
+
+              <kbd>/</kbd>
+            </label>
+
+
+            <div class="sort-control">
+
+              <span
+                data-icon="sort"
+                aria-hidden="true"
+              ></span>
+
+              <select
+                class="sort-select"
+                id="sort-select"
+                aria-label="Sort files"
+              >
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="name">Name (A–Z)</option>
+                <option value="size">Largest first</option>
+              </select>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- File list is populated by files.js -->
+        <div
+          class="file-list"
+          id="file-list"
+          role="list"
+        ></div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       NETWORK PANEL
+  ====================================================== -->
+
+  <aside
+    class="network-panel"
+    id="network-panel"
+    aria-label="Local network connection"
+    data-open="false"
+  >
+
+    <div class="network-panel-header-row">
+
+      <div class="network-panel-title">
+
+        <span class="section-eyebrow">
+          CONNECTION
+        </span>
+
+        <h2>Connect a device</h2>
+
+      </div>
+
+      <button
+        class="icon-button network-panel-close"
+        id="network-panel-close"
+        aria-label="Close network panel"
+        type="button"
+      >
+        <span data-icon="close"></span>
+      </button>
+
+    </div>
+
+
+    <!-- Connection state -->
+
+    <div class="network-connection-state">
+
+      <span
+        class="network-state-orb"
+        aria-hidden="true"
+      >
+        <span
+          class="status-dot"
+          data-role="network-status-dot"
+          data-status="online"
+        ></span>
+      </span>
+
+      <div>
+
+        <strong id="network-status-heading">
+          Ready to share
+        </strong>
+
+        <p id="network-status-text">
+          Anyone on this Wi-Fi can reach this server.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- Address -->
+
+    <div class="network-address-card">
+
+      <div class="network-address-label">
+        <span>SHARING ADDRESS</span>
+        <span class="network-address-live">
+          LIVE
+        </span>
+      </div>
+
+      <div class="network-address">
+
+        <code id="network-address-text">
+          detecting…
+        </code>
+
+        <button
+          class="icon-button"
+          id="network-copy-btn"
+          aria-label="Copy sharing address"
+          type="button"
+          title="Copy address"
+        >
+          <span data-icon="copy"></span>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- QR placeholder for next step -->
+
+   <div class="network-qr-section">
+    <div class="network-qr-title">
+        <span>Scan to connect</span>
+    </div>
+
+    <p class="network-qr-description">
+        Scan with your phone to open Local File Share
+    </p>
+
+    <div id="qr-code" class="network-qr-code"></div>
+
+    <div class="network-qr-url">
+        <span id="qr-url-text">Waiting for network...</span>
+    </div>
+</div>
+
+    </div>
+
+
+    <p class="network-hint">
+      Open the sharing address on any device connected to
+      the same Wi-Fi router. No internet connection is needed.
+    </p>
+
+  </aside>
+
+</div>
+
+
+  </div>
+
+  <!-- =======================================================
+       MOBILE NETWORK BACKDROP
+  ======================================================== -->
+
+  <div
+    class="network-panel-backdrop"
+    id="network-panel-backdrop"
+    data-open="false"
+    aria-hidden="true"
+  ></div>
+
+  <!-- =======================================================
+       TOASTS
+  ======================================================== -->
+
+  <div
+    class="toast-stack"
+    id="toast-stack"
+    aria-live="polite"
+    aria-atomic="true"
+  ></div>
+
+  <!-- =======================================================
+       APPLICATION SCRIPTS
+  ======================================================== -->
+
+<!-- QR Code library -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+  <script src="/js/utils.js"></script>
+
+  <script src="/js/icons.js"></script>
+
+  <script src="/js/api.js"></script>
+
+  <script src="/js/toast.js"></script>
+
+  <script src="/js/theme.js"></script>
+
+  <script src="/js/network.js"></script>
+
+  <script src="/js/files.js"></script>
+
+  <script src="/js/upload.js"></script>
+
+  <script src="/js/app.js"></script>
+
+      <!-- QR CODE MODAL -->
+  <div
+  id="qr-modal"
+  class="qr-modal"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="qr-modal-title"
+>
+  <div class="qr-modal-backdrop" data-qr-close></div>
+
+  <div class="qr-modal-card">
+    <button
+      class="qr-modal-close"
+      type="button"
+      aria-label="Close QR code"
+      data-qr-close
+    >
+      <span class="icon" data-icon="close"></span>
+    </button>
+
+    <div class="qr-modal-header">
+      <div class="qr-modal-icon">
+        <span class="icon" data-icon="qr-code"></span>
+      </div>
+
+      <h2 id="qr-modal-title">Connect to Local File Share</h2>
+
+      <p>
+        Scan this QR code with another device on the same network.
+      </p>
+    </div>
+
+    <div id="qr-code" class="qr-code"></div>
+
+    <div class="qr-url">
+      <span id="qr-url-text"></span>
+    </div>
+
+    <button id="qr-copy-btn" class="btn btn-primary" type="button">
+      <span class="icon" data-icon="copy"></span>
+      <span>Copy Link</span>
+    </button>
+  </div>
+</div>
+
+</body>
+</html>
