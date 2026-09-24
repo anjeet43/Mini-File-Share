@@ -30,15 +30,13 @@
     try {
       window.localStorage.setItem(STORAGE_KEY, theme);
     } catch (e) {
-      /* localStorage unavailable (private browsing) — theme still applies
-         for this session, it just won't persist */
+  
     }
     apply(theme);
   }
 
   function init() {
-    // The <head> inline script already set data-theme before first paint;
-    // this just syncs the switch UI to match and wires the buttons.
+
     apply(getStored());
 
     document.querySelectorAll("[data-theme-option]").forEach((btn) => {
