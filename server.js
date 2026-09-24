@@ -51,9 +51,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
 
     const f = req.file;
 
-    // If the client cancelled/dropped the connection after Multer already
-    // wrote the file to disk but before we respond, don't leave an orphan
-    // file with no matching database row.
+    
     if (req.aborted) {
         if (f) {
             fs.unlink(path.join(storageDir, f.filename), () => {});
