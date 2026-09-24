@@ -105,10 +105,7 @@
     return svg;
   }
 
-  // Replaces every static `<span data-icon="name" class="...">` placeholder
-  // in the given root with the matching SVG, keeping the placeholder's
-  // classes. Lets index.html declare icons without repeating raw path
-  // markup for the one-off, non-dynamic ones.
+
   function hydrateIcons(root) {
     (root || document).querySelectorAll("[data-icon]").forEach((placeholder) => {
       const name = placeholder.getAttribute("data-icon");
