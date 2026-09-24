@@ -40,8 +40,6 @@
     return date.toLocaleString();
   }
 
-  // Creates an element and safely assigns text content — never innerHTML —
-  // so a filename can never be interpreted as markup.
   function el(tag, attrs, children) {
     const node = document.createElement(tag);
 
