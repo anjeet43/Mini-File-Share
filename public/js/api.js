@@ -34,10 +34,7 @@ async function getFiles() {
     return res.json();
   }
 
-  // XHR (not fetch) because it's the only API with upload progress events
-  // and a synchronous abort() handle for the queue's cancel button.
-  // Returns { promise, xhr } — the caller can abort via the xhr handle
-  // before the promise settles.
+
   function uploadFile(file, onProgress) {
     const xhr = new XMLHttpRequest();
 
