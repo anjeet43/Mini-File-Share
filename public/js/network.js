@@ -71,9 +71,7 @@
     return window.matchMedia(MOBILE_QUERY).matches;
   }
 
-  // On mobile the closed panel sits off-screen via transform, which alone
-  // doesn't remove it from the tab order — `inert` does. On desktop the
-  // panel is a normal, always-visible sidebar and must never be inert.
+
   function syncInertState(open) {
     const shouldBeInert = isMobile() && !open;
     elements.panel.toggleAttribute("inert", shouldBeInert);
