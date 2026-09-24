@@ -187,8 +187,7 @@
       inputEl.value = "";
     });
 
-    // dragenter/dragleave fire on children too, so a depth counter avoids
-    // the drop zone flickering as the pointer passes over its own contents.
+
     zoneEl.addEventListener("dragenter", (e) => {
       e.preventDefault();
       dragDepth += 1;
