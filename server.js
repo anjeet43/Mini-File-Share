@@ -186,11 +186,7 @@ app.delete("/files/:id", (req, res) => {
     );
 });
 
-// Local network address(es) this server is reachable at, so the frontend
-// can show "where do I connect from" without a hardcoded IP. Loopback and
-// non-IPv4 interfaces are filtered out; internal Docker/virtual adapters
-// are a best-effort exclusion since there's no fully portable way to
-// detect them.
+
 app.get("/api/network", (req, res) => {
     const interfaces = os.networkInterfaces();
     const addresses = [];
@@ -209,8 +205,7 @@ app.get("/api/network", (req, res) => {
     });
 });
 
-// Keep error responses as JSON (e.g. Multer errors) instead of Express's
-// default HTML stack trace page.
+
 app.use((err, req, res, next) => {
     console.error(err);
 
